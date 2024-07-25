@@ -1,5 +1,6 @@
 import 'package:adam_fauzan_frond_end/resources/resources.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class TextFieldWidget extends StatelessWidget {
@@ -15,6 +16,7 @@ class TextFieldWidget extends StatelessWidget {
     this.onChanged,
     this.validator,
     this.suffixIcon,
+    this.inputFormatters,
   }) : super(key: key);
 
   final String name;
@@ -27,6 +29,7 @@ class TextFieldWidget extends StatelessWidget {
   final TextInputType? keyboardType;
   final Function(String?)? onChanged;
   final String? Function(String?)? validator;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +42,7 @@ class TextFieldWidget extends StatelessWidget {
       validator: validator,
       keyboardType: keyboardType,
       onChanged: onChanged,
+      inputFormatters: inputFormatters,
       style: Theme.of(context)
           .textTheme
           .bodyMedium!

@@ -1,26 +1,25 @@
 import 'package:adam_fauzan_frond_end/feature/stok_barang/stok_controller.dart';
+import 'package:adam_fauzan_frond_end/model/barang_model.dart';
+import 'package:adam_fauzan_frond_end/utills/helper/convert.dart';
 import 'package:flutter/material.dart';
 import '/resources/resources.dart';
 import 'package:sizer/sizer.dart';
 
 class StokListItem extends StatelessWidget {
-  final int index;
+  final Barang barang;
   final StokController controller;
-  // final Hospital mData;
 
   const StokListItem({
     super.key,
-    required this.index,
+    required this.barang,
     required this.controller,
-    // required this.mData,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Get.toNamed(PageName.DETAIL_STOK);
-        controller.showDetailStok(context);
+        controller.showDetailStok(context, barang);
       },
       child: Container(
           width: 100.w,
@@ -43,7 +42,7 @@ class StokListItem extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          "[Nama Barang]",
+                          barang.namaBarang,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context)
@@ -63,7 +62,7 @@ class StokListItem extends StatelessWidget {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Text(
-                          "Rp. 100.000",
+                          Convert.formatRupiah(barang.harga),
                           maxLines: 1,
                           overflow: TextOverflow.clip,
                           style: Theme.of(context)
@@ -80,7 +79,7 @@ class StokListItem extends StatelessWidget {
                 SizedBox(
                   width: 100.w - 70,
                   child: Text(
-                    "Stok: 35",
+                    "Stok: ${barang.stok}",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(

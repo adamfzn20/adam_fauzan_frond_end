@@ -14,6 +14,8 @@ const Map<String, String> id = {
   "txt_button_tambah_barang": "Tambah Barang",
   "txt_button_edit_barang": "Edit Barang",
   "txt_button_hapus_barang": "Hapus Barang",
+  "txt_button_simpan_barang": "Simpan Barang",
+  "txt_button_ok": "Ok",
 
   // Stok
   "txt_list_stok_barang": "List Stok Barang",

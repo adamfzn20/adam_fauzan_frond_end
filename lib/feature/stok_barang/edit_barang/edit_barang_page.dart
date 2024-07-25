@@ -1,4 +1,4 @@
-import 'package:adam_fauzan_frond_end/feature/stok_barang/add_stok/add_barang_controller.dart';
+import 'package:adam_fauzan_frond_end/feature/stok_barang/edit_barang/edit_barang_controller.dart';
 import 'package:adam_fauzan_frond_end/utills/helper/convert.dart';
 import 'package:adam_fauzan_frond_end/utills/widget/app_bar/app_bar_widget.dart';
 import 'package:adam_fauzan_frond_end/utills/widget/floating_action_button/floating_submit_button.dart';
@@ -12,15 +12,15 @@ import 'package:get/get.dart';
 
 import '../../../utills/helper/validator.dart';
 
-class AddBarangPage extends StatelessWidget {
-  const AddBarangPage({super.key});
+class EditBarangPage extends StatelessWidget {
+  const EditBarangPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<AddBarangController>(builder: (controller) {
+    return GetBuilder<EditBarangController>(builder: (controller) {
       return Scaffold(
         appBar: AppBarWidget.secondaryAppbar(
-            titleString: "txt_tambah_barang".tr, context: context),
+            titleString: "txt_button_edit_barang".tr, context: context),
         body: FormBuilder(
           key: controller.formKey,
           child: SingleChildScrollView(
@@ -32,6 +32,7 @@ class AddBarangPage extends StatelessWidget {
                   LabelFormWidget(labelText: "txt_nama_barang".tr),
                   TextFieldWidget(
                     name: 'nama_barang',
+                    initialValue: controller.namaBarangResult,
                     hintText: "Masukan ${'txt_nama_barang'.tr}",
                     validator: Validator.required(),
                     onChanged: (String? newValue) {
@@ -74,18 +75,19 @@ class AddBarangPage extends StatelessWidget {
                   LabelFormWidget(labelText: "txt_stok".tr),
                   TextFieldWidget(
                     name: 'stok',
+                    initialValue: controller.stokResult.toString(),
                     hintText: "Masukan ${'txt_stok'.tr}",
                     validator: Validator.required(),
                     keyboardType: TextInputType.number,
                     onChanged: (String? newValue) {
-                      controller.stokResult = int.tryParse(newValue ?? '0');
+                      controller.stokResult = int.parse(newValue!);
                     },
                   ),
                   const SizedBox(height: 16),
                   LabelFormWidget(labelText: "txt_harga".tr),
                   TextFieldWidget(
                     name: 'harga',
-                    enabled: true,
+                    initialValue: controller.hargaResult.toString(),
                     hintText: "Masukan ${'txt_harga'.tr}",
                     validator: Validator.required(),
                     keyboardType: TextInputType.number,
@@ -96,7 +98,7 @@ class AddBarangPage extends StatelessWidget {
                     ],
                     onChanged: (String? newValue) {
                       controller.hargaResult =
-                          Convert.removeFormatRupiah(newValue!);
+                          double.parse(Convert.removeFormatRupiah(newValue!));
                     },
                   ),
                   const SizedBox(height: 100),
@@ -107,11 +109,11 @@ class AddBarangPage extends StatelessWidget {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingSubmitButton(
-          textButton: 'txt_button_tambah_barang'.tr,
+          textButton: 'txt_button_simpan_barang'.tr,
           onPressed: () async {
             if (controller.formKey.currentState != null &&
                 controller.formKey.currentState!.saveAndValidate()) {
-              await controller.addBarang(context);
+              await controller.updateBarang(context);
             }
           },
         ),

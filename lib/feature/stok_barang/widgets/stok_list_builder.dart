@@ -1,6 +1,6 @@
 import 'package:adam_fauzan_frond_end/feature/stok_barang/stok_controller.dart';
-import 'package:adam_fauzan_frond_end/feature/stok_barang/widgets/stok_items.dart';
 import 'package:flutter/material.dart';
+import 'stok_items.dart';
 
 class ListStokBarangBuilder extends StatelessWidget {
   const ListStokBarangBuilder({
@@ -13,15 +13,14 @@ class ListStokBarangBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      // itemCount: controller.dataList.length,
-      itemCount: 10,
+      itemCount: controller.barangList.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
+        final barang = controller.barangList[index];
         return StokListItem(
-          index: index,
+          barang: barang,
           controller: controller,
-          // mData: controller.dataList[index],
         );
       },
     );

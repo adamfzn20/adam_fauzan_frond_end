@@ -7,7 +7,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class AddBarangController extends GetxController {
+class EditBarangController extends GetxController {
   final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
   final DatabaseService _databaseService = DatabaseService();
 
@@ -16,31 +16,59 @@ class AddBarangController extends GetxController {
   String? kategoriResult;
   String? namaBarangResult;
   int? stokResult;
-  String? hargaResult;
+  double? hargaResult;
+  int? id;
 
   RxList<Kategori> kategoriList = <Kategori>[].obs;
 
+  // Barang? barang;
+
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+    await getData();
     fetchKategoriList();
+    update();
+  }
+
+  Future<void> getData() async {
+    id = Get.arguments['id'];
+    namaBarangResult = Get.arguments['namaBarang'];
+    kategoriResult = Get.arguments['kategoriId'];
+    stokResult = Get.arguments['stok'];
+    kelompokResult = Get.arguments['kelompokBarang'];
+    hargaResult = Get.arguments['harga'];
+    update();
   }
 
   void fetchKategoriList() async {
     kategoriList.value = await _databaseService.getAllKategori();
+    final kategoriId = int.parse(Get.arguments['kategoriId'].toString());
+    final selectedKategori = kategoriList.firstWhere(
+      (kategori) => kategori.id == kategoriId,
+      orElse: () => Kategori(id: 0, namaKategori: 'Kategori tidak ditemukan'),
+    );
+    kategoriResult = selectedKategori.namaKategori;
+    update();
   }
 
-  Future<void> addBarang(BuildContext context) async {
+  Future<void> updateBarang(BuildContext context) async {
     if (formKey.currentState != null &&
         formKey.currentState!.saveAndValidate()) {
-      final barang = Barang(
+      final selectedKategori = kategoriList.firstWhere(
+        (kategori) => kategori.namaKategori == kategoriResult,
+        orElse: () => Kategori(id: 0, namaKategori: 'Kategori tidak ditemukan'),
+      );
+      kategoriResult = selectedKategori.id.toString();
+      final updatedBarang = Barang(
+        id: id,
         namaBarang: namaBarangResult!,
         kategoriId: int.parse(kategoriResult!),
         stok: stokResult!,
         kelompokBarang: kelompokResult!,
-        harga: double.parse(hargaResult!),
+        harga: hargaResult!,
       );
-      await _databaseService.addBarang(barang);
+      await _databaseService.updateBarang(updatedBarang);
       if (context.mounted) {
         await PopUpWidget.successAndFailPopUp(
           context: context,
@@ -49,6 +77,7 @@ class AddBarangController extends GetxController {
           buttonText: "txt_button_ok".tr,
         );
       }
+      Get.back();
       Get.back();
     }
   }
@@ -62,7 +91,6 @@ class AddBarangController extends GetxController {
       final formatText =
           NumberFormat.currency(locale: 'id_ID', symbol: '', decimalDigits: 0)
               .format(numericValue);
-
       return TextEditingValue(
         text: formatText,
         selection: TextSelection.collapsed(offset: formatText.length),
