@@ -14,47 +14,59 @@ class StokPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBarWidget.secondaryAppbar(
-        titleString: "txt_list_stok_barang".tr,
-        withSearch: true,
-        context: context,
-        withLeading: true,
-        center: true,
-      ),
-      body: GetBuilder<StokController>(builder: (controller) {
-        return Obx(
-          () => SmartRefresher(
-            enablePullUp: controller.hasMore.value,
-            enablePullDown: true,
-            onRefresh: controller.refreshPage,
-            onLoading: controller.loadNextPage,
-            controller: controller.refreshController,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(height: 24),
-                  StateHandleWidget(
-                    emptyImage: AppImages.svgEmpty,
-                    emptyEnabled: controller.barangList.isEmpty,
-                    errorEnabled: false,
-                    onRetryPressed: () {
-                      controller.refreshPage();
-                    },
-                    body: ListStokBarangBuilder(controller: controller),
-                  ),
-                ],
+    return GetBuilder<StokController>(
+      builder: (controller) {
+        return Scaffold(
+          appBar: AppBarWidget.secondaryAppbar(
+            titleString: "txt_list_stok_barang".tr,
+            withSearch: true,
+            context: context,
+            withLeading: true,
+            center: true,
+            searchResultWidget: Container(), // Dummy widget
+            onSearchPressed: () {
+              showSearch(
+                context: context,
+                delegate: MySearchDelegate(
+                  barangList: controller.allBarangList,
+                  controller: controller,
+                ),
+              );
+            },
+          ),
+          body: Obx(
+            () => SmartRefresher(
+              enablePullUp: controller.hasMore.value,
+              enablePullDown: true,
+              onRefresh: controller.refreshPage,
+              onLoading: controller.loadNextPage,
+              controller: controller.refreshController,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 24),
+                    StateHandleWidget(
+                      emptyImage: AppImages.svgEmpty,
+                      emptyEnabled: controller.barangList.isEmpty,
+                      errorEnabled: false,
+                      onRetryPressed: () {
+                        controller.refreshPage();
+                      },
+                      body: ListStokBarangBuilder(controller: controller),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
+          floatingActionButton: RequestFloatingActionButton(
+            onTap: () {
+              Get.toNamed(PageName.ADD_BARANG);
+            },
+            text: "txt_button_barang".tr,
+          ),
         );
-      }),
-      floatingActionButton: RequestFloatingActionButton(
-        onTap: () {
-          Get.toNamed(PageName.ADD_BARANG);
-        },
-        text: "txt_button_barang".tr,
-      ),
+      },
     );
   }
 }

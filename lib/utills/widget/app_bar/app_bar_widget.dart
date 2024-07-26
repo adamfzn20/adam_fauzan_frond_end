@@ -1,20 +1,25 @@
+import 'package:adam_fauzan_frond_end/feature/stok_barang/stok_controller.dart';
+import 'package:adam_fauzan_frond_end/model/barang_model.dart';
+import 'package:adam_fauzan_frond_end/utills/helper/convert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 import '/resources/resources.dart';
 
 class AppBarWidget {
-  static AppBar defaultAppBar(
-      {Color? color,
-      required Brightness brightness,
-      ImageProvider? backImage,
-      String? title,
-      TextStyle? titleStyle,
-      Color? backgroundColor,
-      List<Widget>? actions,
-      Function()? backCallback,
-      PreferredSizeWidget? bottom,
-      required BuildContext context}) {
+  static AppBar defaultAppBar({
+    Color? color,
+    required Brightness brightness,
+    ImageProvider? backImage,
+    String? title,
+    TextStyle? titleStyle,
+    Color? backgroundColor,
+    List<Widget>? actions,
+    Function()? backCallback,
+    PreferredSizeWidget? bottom,
+    required BuildContext context,
+  }) {
     return AppBar(
       title: Text(
         title ?? '',
@@ -46,8 +51,10 @@ class AppBarWidget {
   }
 
   // AppBar transparent with just Back Button
-  static AppBar simple(
-      {required String titleString, required BuildContext context}) {
+  static AppBar simple({
+    required String titleString,
+    required BuildContext context,
+  }) {
     return AppBar(
       iconTheme: const IconThemeData(color: AppColors.textColour80),
       backgroundColor: Colors.transparent,
@@ -72,6 +79,8 @@ class AppBarWidget {
     Function()? filterOnPressed,
     bool withSearch = false,
     Widget? searchResultWidget,
+    List<Barang>? barangList,
+    Function()? onSearchPressed,
   }) {
     return AppBar(
       iconTheme: const IconThemeData(color: AppColors.textColour80),
@@ -94,12 +103,7 @@ class AppBarWidget {
             child: IconButton(
               icon:
                   const Icon(IconlyLight.search, color: AppColors.textColour80),
-              onPressed: () {
-                showSearch(
-                  context: context,
-                  delegate: MySearchDelegate(resultWidget: searchResultWidget),
-                );
-              },
+              onPressed: onSearchPressed,
             ),
           ),
         ),
@@ -130,6 +134,8 @@ class AppBarWidget {
     bool withSearch = false,
     Widget? searchResultWidget,
     bool? center,
+    List<Barang>? barangList,
+    Function()? onSearchPressed,
   }) {
     return AppBar(
       iconTheme: const IconThemeData(color: AppColors.textColour80),
@@ -161,12 +167,7 @@ class AppBarWidget {
             child: IconButton(
               icon:
                   const Icon(IconlyLight.search, color: AppColors.textColour80),
-              onPressed: () {
-                showSearch(
-                  context: context,
-                  delegate: MySearchDelegate(resultWidget: searchResultWidget),
-                );
-              },
+              onPressed: onSearchPressed,
             ),
           ),
         ),
@@ -185,10 +186,12 @@ class AppBarWidget {
   }
 }
 
-class MySearchDelegate extends SearchDelegate {
-  MySearchDelegate({required this.resultWidget});
+class MySearchDelegate extends SearchDelegate<Barang?> {
+  MySearchDelegate({required this.barangList, required this.controller});
 
-  Widget? resultWidget;
+  final List<Barang> barangList;
+  final StokController controller;
+  static const int initialItemCount = 4;
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -216,16 +219,130 @@ class MySearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return resultWidget ??
-        Center(
-          child: Text(
-            query,
-          ),
+    final results = barangList
+        .where((barang) =>
+            barang.namaBarang.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    return ListView.builder(
+      itemCount: results.length,
+      itemBuilder: (context, index) {
+        final barang = results[index];
+        return StokListItem(
+          barang: barang,
+          controller: controller,
         );
+      },
+    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return Column();
+    final suggestions = barangList
+        .where((barang) =>
+            barang.namaBarang.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    final limitedSuggestions = suggestions.take(initialItemCount).toList();
+
+    return ListView.builder(
+      itemCount: limitedSuggestions.length,
+      itemBuilder: (context, index) {
+        final barang = limitedSuggestions[index];
+        return StokListItem(
+          barang: barang,
+          controller: controller,
+        );
+      },
+    );
+  }
+}
+
+class StokListItem extends StatelessWidget {
+  final Barang barang;
+  final StokController controller;
+
+  const StokListItem({
+    super.key,
+    required this.barang,
+    required this.controller,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        controller.showDetailStok(context, barang);
+      },
+      child: Container(
+          width: 100.w,
+          margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+          decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [AppElevation.elevation4px]),
+          clipBehavior: Clip.hardEdge,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            child: Wrap(
+              direction: Axis.vertical,
+              spacing: 8,
+              children: [
+                SizedBox(
+                  width: 100.w - 70,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          barang.namaBarang,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.textColour90),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: AppColors.success,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Text(
+                          Convert.formatRupiah(barang.harga),
+                          maxLines: 1,
+                          overflow: TextOverflow.clip,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.surface),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 100.w - 70,
+                  child: Text(
+                    "Stok: ${barang.stok}",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.colorSecondary),
+                  ),
+                ),
+              ],
+            ),
+          )),
+    );
   }
 }

@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import '/data/local/storage/storage_manager.dart';
 // import '/model/user.dart';
 import '/routes/page_names.dart';
-import '/data/local/secure/secure_storage_manager.dart';
+// import '/data/local/secure/secure_storage_manager.dart';
 
 import 'auth_state.dart';
 
@@ -14,7 +14,7 @@ class AuthController extends GetxController {
   AuthState? get state => authState.value;
 
   var storage = StorageManager();
-  var secureStorage = SecureStorageManager();
+  // var secureStorage = SecureStorageManager();
 
   // User? get user {
   //   if (storage.has(StorageName.USERS)) {

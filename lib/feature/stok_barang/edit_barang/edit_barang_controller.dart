@@ -21,8 +21,6 @@ class EditBarangController extends GetxController {
 
   RxList<Kategori> kategoriList = <Kategori>[].obs;
 
-  // Barang? barang;
-
   @override
   void onInit() async {
     super.onInit();

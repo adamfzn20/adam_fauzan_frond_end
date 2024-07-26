@@ -52,21 +52,21 @@ class DatabaseService {
     return await db.insert('kategori', kategori.toMap());
   }
 
-  // Future<List<Barang>> getAllBarang() async {
-  //   Database db = await _dbHelper.database;
-  //   final List<Map<String, dynamic>> maps = await db.query('barang');
+  Future<List<Barang>> getAllBarang() async {
+    Database db = await _dbHelper.database;
+    final List<Map<String, dynamic>> maps = await db.query('barang');
 
-  //   return List.generate(maps.length, (i) {
-  //     return Barang(
-  //       id: maps[i]['id'],
-  //       namaBarang: maps[i]['nama_barang'],
-  //       kategoriId: maps[i]['kategori_id'],
-  //       stok: maps[i]['stok'],
-  //       kelompokBarang: maps[i]['kelompok_barang'],
-  //       harga: maps[i]['harga'],
-  //     );
-  //   });
-  // }
+    return List.generate(maps.length, (i) {
+      return Barang(
+        id: maps[i]['id'],
+        namaBarang: maps[i]['nama_barang'],
+        kategoriId: maps[i]['kategori_id'],
+        stok: maps[i]['stok'],
+        kelompokBarang: maps[i]['kelompok_barang'],
+        harga: maps[i]['harga'],
+      );
+    });
+  }
 
   Future<List<Kategori>> getAllKategori() async {
     Database db = await _dbHelper.database;
