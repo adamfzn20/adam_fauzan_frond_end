@@ -1,6 +1,12 @@
+# Download App
+
 # adam_fauzan_frond_end
 
 A new Flutter project.
+
+## Generator Command
+
+flutter pub run build_runner build --delete-conflicting-outputs
 
 ## Getting Started
 

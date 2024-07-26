@@ -26,6 +26,7 @@ class DatabaseService {
     final offset = (page - 1) * limit;
     final List<Map<String, dynamic>> maps = await db.query(
       'barang',
+      orderBy: 'id DESC', // Urutkan berdasarkan ID terbaru terlebih dahulu
       offset: offset,
       limit: limit,
     );

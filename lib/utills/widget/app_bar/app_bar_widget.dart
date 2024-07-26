@@ -238,11 +238,10 @@ class MySearchDelegate extends SearchDelegate<Barang?> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestions = barangList
+    final suggestions = barangList.reversed
         .where((barang) =>
             barang.namaBarang.toLowerCase().contains(query.toLowerCase()))
         .toList();
-
     final limitedSuggestions = suggestions.take(initialItemCount).toList();
 
     return ListView.builder(

@@ -2,7 +2,7 @@ import 'package:adam_fauzan_frond_end/feature/stok_barang/add_stok/add_barang_co
 import 'package:adam_fauzan_frond_end/utills/helper/convert.dart';
 import 'package:adam_fauzan_frond_end/utills/widget/app_bar/app_bar_widget.dart';
 import 'package:adam_fauzan_frond_end/utills/widget/floating_action_button/floating_submit_button.dart';
-import 'package:adam_fauzan_frond_end/utills/widget/forms/dropdown_widget_2.dart';
+import 'package:adam_fauzan_frond_end/utills/widget/forms/dropdown_search_widget.dart';
 import 'package:adam_fauzan_frond_end/utills/widget/forms/label_form_widget.dart';
 import 'package:adam_fauzan_frond_end/utills/widget/forms/text_field_widget.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +40,7 @@ class AddBarangPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   LabelFormWidget(labelText: "txt_kategori_barang".tr),
-                  Obx(() => DropdownWidget2(
+                  Obx(() => DropdownSearchWidget(
                         hintText: "Masukan ${'txt_kategori_barang'.tr}",
                         selectedItem: controller.kategoriResult,
                         validator: Validator.required(),
@@ -57,14 +57,21 @@ class AddBarangPage extends StatelessWidget {
                       )),
                   const SizedBox(height: 16),
                   LabelFormWidget(labelText: 'txt_kelompok_barang'.tr),
-                  DropdownWidget2(
+                  DropdownSearchWidget(
                     hintText: "Masukan ${"txt_kelompok_barang".tr}",
                     selectedItem: controller.kelompokResult,
                     validator: Validator.required(),
                     dropdownItems: const [
-                      'Kelompok 1',
-                      'Kelompok 2',
-                      'Kelompok 3'
+                      'Kemeja',
+                      'TV',
+                      'Smartphone',
+                      'Celana',
+                      'Gamis',
+                      'Laptop',
+                      'Sepatu',
+                      'Tas',
+                      'Jam Tangan',
+                      'Kacamata',
                     ],
                     onChanged: (String? newValue) {
                       controller.kelompokResult = newValue;

@@ -1,3 +1,5 @@
+import 'package:adam_fauzan_frond_end/feature/edit_stok_barang/edit_stok_barang_binding.dart';
+import 'package:adam_fauzan_frond_end/feature/edit_stok_barang/edit_stok_barang_page.dart';
 import 'package:adam_fauzan_frond_end/feature/loader/loading_page.dart';
 import 'package:adam_fauzan_frond_end/feature/stok_barang/add_stok/add_barang_binding.dart';
 import 'package:adam_fauzan_frond_end/feature/stok_barang/add_stok/add_barang_page.dart';
@@ -28,6 +30,11 @@ class PageRoutes {
       name: PageName.EDIT_BARANG,
       page: () => const EditBarangPage(),
       binding: EditBarangBinding(),
+    ),
+    GetPage(
+      name: PageName.EDIT_STOK,
+      page: () => const EditStokBarangPage(),
+      binding: EditStokBarangBinding(),
     ),
   ];
 }

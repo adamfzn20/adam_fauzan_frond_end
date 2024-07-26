@@ -89,7 +89,8 @@ class DetailBarangPage extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.43,
               title: 'txt_button_hapus_barang'.tr,
               colorText: AppColors.danger,
-              customColor: AppColors.gray25,
+              customColor: AppColors.surface,
+              elevation: [AppElevation.elevation2px],
               onPressed: () async {
                 await controller.deleteBarang(barang, context);
                 Get.back();

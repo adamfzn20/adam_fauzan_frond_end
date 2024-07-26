@@ -6,6 +6,7 @@ import 'package:adam_fauzan_frond_end/utills/widget/state_handle_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:sizer/sizer.dart';
 import 'stok_controller.dart';
 import 'widgets/stok_list_builder.dart';
 
@@ -52,7 +53,41 @@ class StokPage extends StatelessWidget {
                       onRetryPressed: () {
                         controller.refreshPage();
                       },
-                      body: ListStokBarangBuilder(controller: controller),
+                      body: Column(
+                        children: [
+                          Container(
+                            width: 100.w,
+                            margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "${controller.allBarangList.length} Data ditampilkan",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          color: AppColors.colorSecondary),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Get.toNamed(PageName.EDIT_STOK);
+                                  },
+                                  child: Text(
+                                    "Edit Data",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(color: AppColors.info),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          ListStokBarangBuilder(controller: controller),
+                        ],
+                      ),
                     ),
                   ],
                 ),
