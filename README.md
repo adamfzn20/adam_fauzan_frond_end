@@ -1,4 +1,9 @@
 # Download App
+![barcode app test](https://github.com/user-attachments/assets/9e8cecf6-cfe7-4c8f-a594-49876126eaa8)
+
+link: https://bit.ly/adam_fauzan_frond_end 
+# Test App
+https://github.com/user-attachments/assets/5ac52db3-17c5-462f-8faf-ffb61d8cdcbb
 
 # adam_fauzan_frond_end
 
