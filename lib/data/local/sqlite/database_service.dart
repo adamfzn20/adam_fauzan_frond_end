@@ -6,27 +6,12 @@ import 'database_helper.dart';
 class DatabaseService {
   final DatabaseHelper _dbHelper = DatabaseHelper.instance;
 
-  Future<Database> _database() async {
-    return openDatabase(
-      'my_database.db',
-      version: 1,
-      onCreate: (db, version) async {
-        await db.execute(
-          'CREATE TABLE barang (id INTEGER PRIMARY KEY, nama_barang TEXT, kategori_id INTEGER, stok INTEGER, kelompok_barang TEXT, harga REAL)',
-        );
-        await db.execute(
-          'CREATE TABLE kategori (id INTEGER PRIMARY KEY, nama_kategori TEXT)',
-        );
-      },
-    );
-  }
-
   Future<List<Barang>> getBarangPaginated(int page, int limit) async {
-    final db = await _database();
+    Database db = await _dbHelper.database;
     final offset = (page - 1) * limit;
     final List<Map<String, dynamic>> maps = await db.query(
       'barang',
-      orderBy: 'id DESC', // Urutkan berdasarkan ID terbaru terlebih dahulu
+      orderBy: 'id DESC',
       offset: offset,
       limit: limit,
     );
