@@ -2,6 +2,7 @@
 harga edit jadi fotmat rupiah, tanpa refresh, dan total stok barang
 
 https://github.com/user-attachments/assets/edcb6dd0-bdad-4c95-9478-32dd42db2382
+![WhatsApp Image 2024-07-29 at 16 24 33_c30feea4](https://github.com/user-attachments/assets/f7a2a437-88e6-4e38-b5ad-6254be9adab7)
 
 # Download App
 ![barcode app test](https://github.com/user-attachments/assets/9e8cecf6-cfe7-4c8f-a594-49876126eaa8)
