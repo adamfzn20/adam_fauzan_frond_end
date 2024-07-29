@@ -94,7 +94,7 @@ class EditBarangPage extends StatelessWidget {
                   LabelFormWidget(labelText: "txt_harga".tr),
                   TextFieldWidget(
                     name: 'harga',
-                    initialValue: controller.hargaResult.toString(),
+                    initialValue: Convert.formatRupiah(controller.hargaResult!),
                     hintText: "Masukan ${'txt_harga'.tr}",
                     validator: Validator.required(),
                     keyboardType: TextInputType.number,

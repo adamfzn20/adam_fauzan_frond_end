@@ -10,6 +10,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class StokController extends GetxController {
   final RefreshController refreshController = RefreshController();
   final DatabaseService _databaseService = DatabaseService();
+  static StokController find = Get.find();
 
   RxList<Barang> barangList = <Barang>[].obs;
   RxList<Barang> allBarangList = <Barang>[].obs;
@@ -116,4 +117,6 @@ class StokController extends GetxController {
     isLoading = false.obs;
     update();
   }
+
+  int get totalStok => barangList.fold(0, (sum, item) => sum + item.stok);
 }

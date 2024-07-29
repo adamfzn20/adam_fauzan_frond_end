@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:adam_fauzan_frond_end/feature/stok_barang/stok_controller.dart';
 
 class EditBarangController extends GetxController {
   final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
   final DatabaseService _databaseService = DatabaseService();
+  final StokController stokController = StokController.find;
 
   bool isObscure = true;
   String? kelompokResult;
@@ -67,6 +69,7 @@ class EditBarangController extends GetxController {
         harga: hargaResult!,
       );
       await _databaseService.updateBarang(updatedBarang);
+      await stokController.refreshPage();
       if (context.mounted) {
         await PopUpWidget.successAndFailPopUp(
           context: context,

@@ -1,4 +1,5 @@
 import 'package:adam_fauzan_frond_end/data/local/sqlite/database_service.dart';
+import 'package:adam_fauzan_frond_end/feature/stok_barang/stok_controller.dart';
 import 'package:adam_fauzan_frond_end/model/barang_model.dart';
 import 'package:adam_fauzan_frond_end/model/kategori_model.dart';
 import 'package:adam_fauzan_frond_end/utills/widget/pop_up/pop_up_widget.dart';
@@ -10,6 +11,7 @@ import 'package:intl/intl.dart';
 class AddBarangController extends GetxController {
   final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
   final DatabaseService _databaseService = DatabaseService();
+  final StokController stokController = StokController.find;
 
   bool isObscure = true;
   String? kelompokResult;
@@ -49,6 +51,7 @@ class AddBarangController extends GetxController {
           buttonText: "txt_button_ok".tr,
         );
       }
+      await stokController.refreshPage();
       Get.back();
     }
   }
