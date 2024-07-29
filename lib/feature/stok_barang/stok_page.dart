@@ -1,5 +1,6 @@
 import 'package:adam_fauzan_frond_end/resources/resources.dart';
 import 'package:adam_fauzan_frond_end/routes/page_names.dart';
+import 'package:adam_fauzan_frond_end/utills/helper/convert.dart';
 import 'package:adam_fauzan_frond_end/utills/widget/app_bar/app_bar_widget.dart';
 import 'package:adam_fauzan_frond_end/utills/widget/button/primary_button.dart';
 import 'package:adam_fauzan_frond_end/utills/widget/floating_action_button/request_fab_widget.dart';
@@ -109,7 +110,14 @@ class StokPage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Total Stok ${controller.totalStok}'),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Total Stok ${controller.totalStok}'),
+                        Text(
+                            'Total Harga ${Convert.formatRupiah(controller.totalHarga)}'),
+                      ],
+                    ),
                     PrimaryButton(
                       width: MediaQuery.of(context).size.width * 0.43,
                       title: 'txt_button_tambah_barang'.tr,
@@ -118,23 +126,11 @@ class StokPage extends StatelessWidget {
                         Get.toNamed(PageName.ADD_BARANG);
                       },
                     ),
-                    // ElevatedButton(
-                    //   onPressed: () async {
-                    //     await controller.deleteSelected();
-                    //   },
-                    //   child: const Text('Delete Selected'),
-                    // ),
                   ],
                 ),
               ),
             ],
           ),
-          // floatingActionButton: RequestFloatingActionButton(
-          //   onTap: () {
-          //     Get.toNamed(PageName.ADD_BARANG);
-          //   },
-          //   text: "${controller.totalStok}",
-          // ),
         );
       },
     );

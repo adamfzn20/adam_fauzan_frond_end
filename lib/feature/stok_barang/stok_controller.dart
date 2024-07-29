@@ -119,4 +119,5 @@ class StokController extends GetxController {
   }
 
   int get totalStok => barangList.fold(0, (sum, item) => sum + item.stok);
+  double get totalHarga => barangList.fold(0, (sum, item) => sum + item.harga);
 }
