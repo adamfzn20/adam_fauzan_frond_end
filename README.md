@@ -1,3 +1,8 @@
+# user test
+harga edit jadi fotmat rupiah, tanpa refresh, dan total stok barang
+
+https://github.com/user-attachments/assets/edcb6dd0-bdad-4c95-9478-32dd42db2382
+
 # Download App
 ![barcode app test](https://github.com/user-attachments/assets/9e8cecf6-cfe7-4c8f-a594-49876126eaa8)
 
